@@ -9,13 +9,13 @@ const context = canvas.getContext("2d");
 //game
 let gameIsRunning = true;
 
-const fps = 15;
 const tileSize = 50;
 const tileCountX = canvas.width / tileSize;
 const tileCountY = canvas.height / tileSize;
 
 function initialData(){
     score = 0;
+    fps = 5;
 
     //player
     snakeSpeed = tileSize;
@@ -24,6 +24,7 @@ function initialData(){
 
     velocityX = 1;
     velocityY = 0;
+    foodCounter = 0;
 
     tail = [];
     snakeLength = 4;
@@ -68,8 +69,8 @@ gameLoop();
 
     //Game over, crash into myself
     tail.forEach((snakePart) => {
-					if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
-						gameOver();
+		if (snakePosX === snakePart.x && snakePosY === snakePart.y) {
+			gameOver();
         }
     });
     
@@ -81,12 +82,17 @@ gameLoop();
 
     //food collision
     if (snakePosX === foodPosX && snakePosY === foodPosY){
-            score++;
-            title.textContent = score;
-            snakeLength++;
-            resetFood();
-        }
-}
+        score++;
+        foodCounter++;
+        title.textContent = score;
+        snakeLength++;
+        resetFood();
+    }
+    if (foodCounter === 5){
+        fps++;
+        foodCounter = 0
+    }
+ }
 
 /**
  * DRAW EVERYTHING
