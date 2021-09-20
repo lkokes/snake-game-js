@@ -3,8 +3,10 @@ document.addEventListener('keydown', keyPush);
 
 //canvas
 const canvas = document.querySelector("canvas");
-const title = document.querySelector("h1");
+const title = document.querySelector("h2");
 const context = canvas.getContext("2d");
+var levels = document.getElementById("level");
+var scores = document.getElementById("score")
 
 //game
 let gameIsRunning = true;
@@ -84,12 +86,13 @@ gameLoop();
     if (snakePosX === foodPosX && snakePosY === foodPosY){
         score++;
         foodCounter++;
-        title.textContent = score;
+        scores.textContent = score;
         snakeLength++;
         resetFood();
     }
     if (foodCounter === 5){
         fps++;
+        levels.textContent = parseInt(levels.textContent) + 1;
         foodCounter = 0
     }
  }
@@ -148,7 +151,7 @@ function resetFood(){
 //game over, keyboard restarts game
 function gameOver() {
     gameIsRunning = false;
-        title.innerHTML = `GAME OVER <br> <strong> ${score} </strong> <br> <button onclick="newGame()"> Play again </button>`;      
+        title.innerHTML = `<strong> GAME OVER <strong> <br><button onclick="newGame()"> Play again </button>`;      
 }
 
 /**
@@ -199,6 +202,8 @@ function drawGrid(){
 
 function newGame(){
     gameIsRunning = true;
+    scores.textContent = 0;
+    levels.textContent = 1;
     initialData();
     resetFood();
     gameLoop()
